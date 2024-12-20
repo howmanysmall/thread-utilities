@@ -19,6 +19,21 @@ declare namespace ThreadUtilities {
 	): thread;
 
 	/**
+	 * Defers a function in a much more performant manner than
+	 * {@linkcode task.defer}. This is a safer version of
+	 * {@linkcode FastDefer} as I think the use of varargs can cause some
+	 * issues.
+	 *
+	 * @param callback The function to spawn.
+	 * @param parameters The arguments to the function.
+	 * @returns The thread that was created.
+	 */
+	export function FastDeferSafe<Arguments extends ReadonlyArray<unknown>>(
+		callback: (...parameters: Arguments) => void,
+		...parameters: Arguments
+	): thread;
+
+	/**
 	 * Delays a function call in a much more performant manner than
 	 * {@linkcode task.delay}.
 	 *

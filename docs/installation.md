@@ -8,7 +8,7 @@ sidebar_position: 2
 
 Using the RepoToRoblox plugin is the easiest way to install in Studio.
 
-1. In the RepoToRoblox widget, enter `bura-games` as the owner and `thread-utilities` as the repository.
+1. In the RepoToRoblox widget, enter `howmanysmall` as the owner and `thread-utilities` as the repository.
 2. Click the Clone Repository button.
 
 ## Method 2 - Wally
@@ -18,5 +18,5 @@ Using the RepoToRoblox plugin is the easiest way to install in Studio.
 
 ```toml
 [dependencies]
-ThreadUtilities = "howmanysmall/thread-utilities@^1.0.1"
+ThreadUtilities = "howmanysmall/thread-utilities@^1.0.3"
 ```

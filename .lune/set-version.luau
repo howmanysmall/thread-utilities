@@ -1,4 +1,3 @@
---!native
 --!optimize 2
 --!strict
 
@@ -34,3 +33,7 @@ replaceVersion("docs/intro.md", `@^{lastVersion}`, `@^{nextVersion}`)
 replaceVersion("docs/installation.md", `@{lastVersion}`, `@{nextVersion}`)
 replaceVersion("docs/intro.md", `@{lastVersion}`, `@{nextVersion}`)
 replaceVersion("wally.toml", `version = "{lastVersion}"`, `version = "{nextVersion}"`)
+
+if fs.isFile("package.json") then
+	replaceVersion("package.json", `"version": "{lastVersion}`, `"version": "{nextVersion}`)
+end
