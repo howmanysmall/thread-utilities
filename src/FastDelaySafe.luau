@@ -17,20 +17,24 @@ end
 --[=[
 	Delays a function call in a much more performant manner than `task.delay`.
 
+	This function might be "safer" than [ThreadUtilities.FastDelay], but I
+	wouldn't put too much stock in that.
+
 	:::warning Erroring
 	This function can sometimes throw some weird error about lifecycle or
 	something. If you're seeing that, I'd just go back to `task.delay`.
 	:::
 
-	@function FastDelay
+	@function FastDelaySafe
 	@within ThreadUtilities
+	@since v1.2.0
 
 	@param delay number -- The delay before the function is executed.
 	@param callback (Arguments...) -> () -- The function to spawn.
 	@param ... Arguments... -- The arguments to the function.
 	@return thread
 ]=]
-local function FastDelay<Arguments...>(delay: number, callback: (Arguments...) -> (), ...: Arguments...): thread
+local function FastDelaySafe<Arguments...>(delay: number, callback: (Arguments...) -> (), ...: Arguments...): thread
 	local thread: thread
 	local freeAmount = #freeThreads
 
@@ -42,7 +46,15 @@ local function FastDelay<Arguments...>(delay: number, callback: (Arguments...) -
 		coroutine.resume(thread)
 	end
 
-	return task.delay(delay, thread, callback, thread, ...)
+	local length = select("#", ...)
+	if length == 0 then
+		return task.delay(delay, thread, callback, thread)
+	end
+
+	local arguments = {select(1, ...)}
+	return task.delay(delay, thread, function(): ()
+		callback(table.unpack(arguments, 1, length))
+	end, thread)
 end
 
-return FastDelay
+return FastDelaySafe

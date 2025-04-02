@@ -49,6 +49,24 @@ declare namespace ThreadUtilities {
 	): thread;
 
 	/**
+	 * Delays a function call in a much more performant manner than
+	 * {@linkcode task.delay}.
+	 *
+	 * This function might be "safer" than {@linkcode FastDelay}, but I
+	 * wouldn't put too much stock in that.
+	 *
+	 * @param delay The delay before the function is executed.
+	 * @param callback The function to spawn.
+	 * @param parameters The arguments to the function.
+	 * @returns The thread that was created.
+	 */
+	export function FastDelaySafe<Arguments extends ReadonlyArray<unknown>>(
+		delay: number,
+		callback: (...parameters: Arguments) => void,
+		...parameters: Arguments
+	): thread;
+
+	/**
 	 * Spawns a function in a much more performant manner than
 	 * {@linkcode task.spawn} or the {@linkcode coroutine} library can provide.
 	 *

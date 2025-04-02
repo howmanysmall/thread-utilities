@@ -2,9 +2,9 @@
 --!strict
 
 --@native
-local function ThreadHandler(thread: thread, success: boolean, ...)
+local function ThreadHandler<T...>(thread: thread, success: boolean, ...: T...): T...
 	if not success then
-		local exception = (...)
+		local exception = (select(1, ...))
 		if type(exception) == "string" then
 			error(debug.traceback(thread, exception), 2)
 		else

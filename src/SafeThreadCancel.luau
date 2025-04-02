@@ -12,10 +12,10 @@
 
 	@param thread thread -- The thread to cancel.
 ]=]
-local function SafeThreadCancel(thread: thread)
+local function SafeThreadCancel(thread: thread): ()
 	local cancelled: boolean?
 	if coroutine.running() ~= thread then
-		cancelled = pcall(function()
+		cancelled = pcall(function(): ()
 			return task.cancel(thread)
 		end)
 	end
@@ -25,7 +25,7 @@ local function SafeThreadCancel(thread: thread)
 		thread = nil :: never
 
 		-- Could probably convert this to use FastDefer?
-		task.defer(function()
+		task.defer(function(): ()
 			task.cancel(toCancel)
 		end)
 	end
